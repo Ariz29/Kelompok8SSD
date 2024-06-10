@@ -8,16 +8,10 @@ def load_data():
     data = pd.read_csv("nepal-earthquake-severity-index-latest (1).csv")
     return data
 
-# Save data
-def save_data(data, filename):
+# Save the trained SVM model
+def save_model(model, filename):
     with open(filename, 'wb') as file:
-        pickle.dump(data, file)
-
-# Load data
-def load_saved_data(filename):
-    with open(filename, 'rb') as file:
-        saved_data = pickle.load(file)
-    return saved_data
+        pickle.dump(model, file)
 
 # Load the trained SVM model
 def load_model(filename):
@@ -27,11 +21,7 @@ def load_model(filename):
 
 def main():
     st.title("Nepal Earthquake Severity Prediction")
-    
-    # Load or save data
     data = load_data()
-    save_data(data, "saved_data.pkl")
-    saved_data = load_saved_data("saved_data.pkl")
 
     st.sidebar.title("Options")
     analysis_choice = st.sidebar.selectbox("Choose Analysis", ("Data Exploration", "Model Building"))
@@ -41,19 +31,19 @@ def main():
 
         # Display the DataFrame
         st.write("## Raw Data")
-        st.write(saved_data)
+        st.write(data)
 
         # Descriptive statistics
         st.write("## Descriptive Statistics")
-        st.write(saved_data.describe().T)
+        st.write(data.describe().T)
 
         # Missing values
         st.write("## Missing Values")
-        st.write(saved_data.isnull().sum())
+        st.write(data.isnull().sum())
 
         # Duplicated rows
         st.write("## Duplicated Rows")
-        st.write(saved_data.duplicated().sum())
+        st.write(data.duplicated().sum())
 
     elif analysis_choice == "Model Building":
         st.title("Model Building")
@@ -68,22 +58,25 @@ def main():
         severity = st.number_input("Severity", value=0.0)
         severity_normalized = st.number_input("Severity Normalized", value=0.0)
 
-        # Load the SVM model
-        svm_model = load_model("svm_model.pkl")
+        # Train and save the SVM model
+        features = ['Hazard (Intensity)', 'Exposure', 'Housing', 'Poverty', 'Vulnerability', 'Severity', 'Severity Normalized']
+        X = data[features]
+        y = data['Severity category']
+        svm_model = SVC(kernel='linear')
+        svm_model.fit(X, y)
+        save_model(svm_model, 'svm_model.pkl')
 
-        # Check if input values exceed capacity
-        if any(val > 1e6 for val in [hazard_intensity, exposure, housing, poverty, vulnerability, severity, severity_normalized]):
-            st.error("Input value exceeds capacity. Please enter a value within the valid range.")
+        # Prediction button
+        if st.button("Predict"):
+            # Load the SVM model
+            loaded_model = load_model('svm_model.pkl')
 
-        else:
-            # Prediction button
-            if st.button("Predict"):
-                # Predict severity category
-                prediction = svm_model.predict([[hazard_intensity, exposure, housing, poverty, vulnerability, severity, severity_normalized]])
+            # Predict severity category
+            prediction = loaded_model.predict([[hazard_intensity, exposure, housing, poverty, vulnerability, severity, severity_normalized]])
 
-                # Display prediction
-                st.write("## Prediction")
-                st.write(f"Predicted Severity Category: {prediction[0]}")
+            # Display prediction
+            st.write("## Prediction")
+            st.write(f"Predicted Severity Category: {prediction[0]}")
 
 if __name__ == "__main__":
     main()
