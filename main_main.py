@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import joblib
+import pickle
 
 # Load data
 @st.cache
@@ -8,15 +8,30 @@ def load_data():
     data = pd.read_csv("nepal-earthquake-severity-index-latest (1).csv")
     return data
 
+# Save data
+def save_data(data, filename):
+    with open(filename, 'wb') as file:
+        pickle.dump(data, file)
+
+# Load data
+def load_saved_data(filename):
+    with open(filename, 'rb') as file:
+        saved_data = pickle.load(file)
+    return saved_data
+
 # Load the trained SVM model
-def load_model():
-    with open('svm_model.pkl', 'rb') as file:
-        svm_model = joblib.load(file)
+def load_model(filename):
+    with open(filename, 'rb') as file:
+        svm_model = pickle.load(file)
     return svm_model
 
 def main():
     st.title("Nepal Earthquake Severity Prediction")
+    
+    # Load or save data
     data = load_data()
+    save_data(data, "saved_data.pkl")
+    saved_data = load_saved_data("saved_data.pkl")
 
     st.sidebar.title("Options")
     analysis_choice = st.sidebar.selectbox("Choose Analysis", ("Data Exploration", "Model Building"))
@@ -26,19 +41,19 @@ def main():
 
         # Display the DataFrame
         st.write("## Raw Data")
-        st.write(data)
+        st.write(saved_data)
 
         # Descriptive statistics
         st.write("## Descriptive Statistics")
-        st.write(data.describe().T)
+        st.write(saved_data.describe().T)
 
         # Missing values
         st.write("## Missing Values")
-        st.write(data.isnull().sum())
+        st.write(saved_data.isnull().sum())
 
         # Duplicated rows
         st.write("## Duplicated Rows")
-        st.write(data.duplicated().sum())
+        st.write(saved_data.duplicated().sum())
 
     elif analysis_choice == "Model Building":
         st.title("Model Building")
@@ -54,7 +69,7 @@ def main():
         severity_normalized = st.number_input("Severity Normalized", value=0.0)
 
         # Load the SVM model
-        svm_model = load_model()
+        svm_model = load_model("svm_model.pkl")
 
         # Check if input values exceed capacity
         if any(val > 1e6 for val in [hazard_intensity, exposure, housing, poverty, vulnerability, severity, severity_normalized]):
