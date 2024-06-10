@@ -1,18 +1,10 @@
-from sklearn.externals import joblib
-
-# Train and save your scikit-learn model
-svm_model = SVC(kernel='linear')
-svm_model.fit(X_train, y_train)
-
-# Save the model to disk
-joblib.dump(svm_model, 'svm_model.pkl')
-
 import streamlit as st
 import pandas as pd
-from sklearn.externals import joblib
+import pickle
 
 # Load the saved model
-svm_model = joblib.load('svm_model.pkl')
+with open('svm_model.pkl', 'rb') as f:
+    svm_model = pickle.load(f)
 
 # Streamlit app
 st.title('Nepal Earthquake Severity Classifier')
