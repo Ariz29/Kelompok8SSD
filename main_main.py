@@ -1,10 +1,19 @@
 import streamlit as st
 import pandas as pd
 import pickle
+import os
 
-# Load the saved model
-with open('svm_model.pkl', 'rb') as f:
-    svm_model = pickle.load(f)
+current_directory = os.path.dirname(__file__)
+file_path = os.path.join(current_directory, 'svm_model.pkl')
+    
+with open(file_path, 'rb') as f:
+# Proses pembacaan file
+except FileNotFoundError as e:
+print(f"File not found: {e}")
+# Tindakan tambahan jika diperlukan, seperti log kesalahan atau fallback logic
+
+
+svm_model = pickle.load(f)
 
 # Streamlit app
 st.title('Nepal Earthquake Severity Classifier')
