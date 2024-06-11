@@ -62,17 +62,17 @@ if st.button('Test Prediksi Gempa Bumi'):
         st.write(f"Nilai prediksi: {diab_prediction[0]}")
 
         # Asumsikan diab_prediction adalah hasil prediksi dari model
-        if diab_prediction[0] == 1:
+        if diab_prediction[0] == 'Highest':
             diab_prediksi = 'Kategori: Highest'
-        elif diab_prediction[0] == 0:
+        elif diab_prediction[0] == 'High':
             diab_prediksi = 'Kategori: High'
-        elif diab_prediction[0] == 5:
+        elif diab_prediction[0] == 'Medium-Low':
             diab_prediksi = 'Kategori: Medium-Low'
-        elif diab_prediction[0] == 4:
+        elif diab_prediction[0] == 'Medium-High':
             diab_prediksi = 'Kategori: Medium-High'
-        elif diab_prediction[0] == 2:
+        elif diab_prediction[0] == 'Low':
             diab_prediksi = 'Kategori: Low'
-        elif diab_prediction[0] == 3:
+        elif diab_prediction[0] == 'Lowest':
             diab_prediksi = 'Kategori: Lowest'
         else:
             diab_prediksi = 'Kategori tidak dikenali'
