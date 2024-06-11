@@ -35,9 +35,9 @@ diab_prediksi = ''
 if st.button('Test Prediksi Gempa Bumi'):
     try:
         # Pastikan input dikonversi ke tipe data yang sesuai
-        input_data = np.array([[int(Hazard), int(Exposure), int(Housing),
-                                int(Poverty), int(Vulnerability), float(Severity),
-                                int(Severity_Normalized)]])
+        input_data = np.array([[float(Hazard), float(Exposure), float(Housing),
+                                float(Poverty), float(Vulnerability), float(Severity),
+                                float(Severity_Normalized)]])
 
         # Terapkan scaler hanya pada fitur yang sesuai
         features_to_scale = input_data[:, :7]
