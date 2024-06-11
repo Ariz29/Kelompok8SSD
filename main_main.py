@@ -50,12 +50,22 @@ if st.button('Test Prediksi Gempa Bumi'):
         # Lakukan prediksi
         diab_prediction = earthquake_model.predict(combined_input_data)
 
-        # Pastikan hasil prediksi diubah menjadi nilai tunggal sebelum dibandingkan
-        if (diab_prediction[0] == [1, 0]).all():
-            diab_prediksi = 'Pasien Terkena Diabetes'
-        else:
-            diab_prediksi = 'Pasien Tidak Terkena Diabetes'
+        # Asumsikan diab_prediction adalah hasil prediksi dari model
+try:
+    # Pastikan hasil prediksi diubah menjadi nilai tunggal sebelum dibandingkan
+    if diab_prediction[0] in [1, 0]:  # Sesuaikan kondisi ini dengan kategori yang sesuai
+        diab_prediksi = 'Kategori: Highest atau High'
+    elif diab_prediction[0] == 5:
+        diab_prediksi = 'Kategori: Medium-Low'
+    elif diab_prediction[0] == 4:
+        diab_prediksi = 'Kategori: Medium-High'
+    elif diab_prediction[0] == 2:
+        diab_prediksi = 'Kategori: Low'
+    elif diab_prediction[0] == 3:
+        diab_prediksi = 'Kategori: Lowest'
+    else:
+        diab_prediksi = 'Kategori tidak dikenali'
 
-        st.success(diab_prediksi)
-    except ValueError as e:
-        st.error(f'Error dalam konversi input: {e}')
+    st.success(diab_prediksi)
+except ValueError as e:
+    st.error(f'Error dalam konversi input: {e}')
