@@ -39,27 +39,15 @@ if st.button('Test Prediksi Gempa Bumi'):
                                 float(Poverty), float(Vulnerability), float(Severity),
                                 float(Severity_Normalized)]])
 
-        # Debug: Cetak input data
-        st.write(f"Input data sebelum scaling: {input_data}")
-
         # Terapkan scaler hanya pada fitur yang sesuai
         features_to_scale = input_data[:, :7]
         scaled_features = scaler.transform(features_to_scale)
 
-        # Debug: Cetak fitur yang sudah di-scaling
-        st.write(f"Fitur yang sudah di-scaling: {scaled_features}")
-
         # Gabungkan fitur yang sudah di-scaling dengan fitur yang tidak di-scaling
         combined_input_data = np.hstack((scaled_features, input_data[:, 7:]))
 
-        # Debug: Cetak data gabungan untuk prediksi
-        st.write(f"Data gabungan untuk prediksi: {combined_input_data}")
-
         # Lakukan prediksi
         diab_prediction = earthquake_model.predict(combined_input_data)
-
-        # Debug: Cetak nilai prediksi
-        st.write(f"Nilai prediksi: {diab_prediction[0]}")
 
         # Asumsikan diab_prediction adalah hasil prediksi dari model
         if diab_prediction[0] == 'Highest':
