@@ -1,6 +1,5 @@
 import streamlit as st
 import pickle
-import streamlit as st
 import numpy as np
 
 # Membaca model
@@ -51,20 +50,19 @@ if st.button('Test Prediksi Gempa Bumi'):
         diab_prediction = earthquake_model.predict(combined_input_data)
 
         # Asumsikan diab_prediction adalah hasil prediksi dari model
-try:
-    if diab_prediction[0] in [1, 0]:  # Sesuaikan kondisi ini dengan kategori yang sesuai
-        diab_prediksi = 'Kategori: Highest atau High'
-    elif diab_prediction[0] == 5:
-        diab_prediksi = 'Kategori: Medium-Low'
-    elif diab_prediction[0] == 4:
-        diab_prediksi = 'Kategori: Medium-High'
-    elif diab_prediction[0] == 2:
-        diab_prediksi = 'Kategori: Low'
-    elif diab_prediction[0] == 3:
-        diab_prediksi = 'Kategori: Lowest'
-    else:
-        diab_prediksi = 'Kategori tidak dikenali'
+        if diab_prediction[0] in [1, 0]:  # Sesuaikan kondisi ini dengan kategori yang sesuai
+            diab_prediksi = 'Kategori: Highest atau High'
+        elif diab_prediction[0] == 5:
+            diab_prediksi = 'Kategori: Medium-Low'
+        elif diab_prediction[0] == 4:
+            diab_prediksi = 'Kategori: Medium-High'
+        elif diab_prediction[0] == 2:
+            diab_prediksi = 'Kategori: Low'
+        elif diab_prediction[0] == 3:
+            diab_prediksi = 'Kategori: Lowest'
+        else:
+            diab_prediksi = 'Kategori tidak dikenali'
 
-    st.success(diab_prediksi)
-except ValueError as e:
-    st.error(f'Error dalam konversi input: {e}')
+        st.success(diab_prediksi)
+    except ValueError as e:
+        st.error(f'Error dalam konversi input: {e}')
