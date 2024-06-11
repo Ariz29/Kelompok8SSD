@@ -52,7 +52,6 @@ if st.button('Test Prediksi Gempa Bumi'):
 
         # Asumsikan diab_prediction adalah hasil prediksi dari model
 try:
-    # Pastikan hasil prediksi diubah menjadi nilai tunggal sebelum dibandingkan
     if diab_prediction[0] in [1, 0]:  # Sesuaikan kondisi ini dengan kategori yang sesuai
         diab_prediksi = 'Kategori: Highest atau High'
     elif diab_prediction[0] == 5:
