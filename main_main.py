@@ -49,6 +49,9 @@ if st.button('Test Prediksi Gempa Bumi'):
         # Lakukan prediksi
         diab_prediction = earthquake_model.predict(combined_input_data)
 
+        # Debug: Cetak nilai prediksi
+        st.write(f"Nilai prediksi: {diab_prediction[0]}")
+
         # Asumsikan diab_prediction adalah hasil prediksi dari model
         if diab_prediction[0] == 1:
             diab_prediksi = 'Kategori: Highest'
