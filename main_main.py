@@ -27,7 +27,7 @@ with col1:
 with col2:
     Severity = st.text_input('Input Tingkat Keparahan Korban Luka-luka')
 with col1:
-    Severity Normalized = st.text_input('Input Tingkat Keparahan Korban Meninggal')
+    Severity_Normalized = st.text_input('Input Tingkat Keparahan Korban Meninggal')
 
 # Code untuk prediksi
 diab_prediksi = ''
@@ -38,7 +38,7 @@ if st.button('Test Prediksi Gempa Bumi'):
         # Pastikan input dikonversi ke tipe data yang sesuai
         input_data = np.array([[int(Hazard), int(Exposure), int(Housing),
                                 int(Poverty), int(Vulnerability), float(Severity),
-                                int(Severity Normalized)]])
+                                int(Severity_Normalized)]])
 
         # Terapkan scaler hanya pada fitur yang sesuai
         features_to_scale = input_data[:, :7]
