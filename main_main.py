@@ -50,7 +50,9 @@ if st.button('Test Prediksi Gempa Bumi'):
         diab_prediction = earthquake_model.predict(combined_input_data)
 
         # Asumsikan diab_prediction adalah hasil prediksi dari model
-        if diab_prediction[0] in [0,1,2,3,4,5]:  # Sesuaikan kondisi ini dengan kategori yang sesuai
+        if diab_prediction[0] == 1:
+            diab_prediksi = 'Kategori: Highest'
+        elif diab_prediction[0] == 0:
             diab_prediksi = 'Kategori: High'
         elif diab_prediction[0] == 5:
             diab_prediksi = 'Kategori: Medium-Low'
@@ -60,8 +62,6 @@ if st.button('Test Prediksi Gempa Bumi'):
             diab_prediksi = 'Kategori: Low'
         elif diab_prediction[0] == 3:
             diab_prediksi = 'Kategori: Lowest'
-        elif diab_prediction[0] == 1:
-            diab_prediksi = 'Kategori: Highest'
         else:
             diab_prediksi = 'Kategori tidak dikenali'
 
